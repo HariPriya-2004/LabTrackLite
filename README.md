@@ -1,68 +1,101 @@
-# LabTrack Lite
+# LabTrack Lite 🧪
 
-LabTrack Lite is a lightweight full-stack web application built to manage R&D lab assets and track issues using a simple ticketing system.  
-It helps replace manual tracking methods like Excel sheets or notebooks with a centralized web-based solution.
+LabTrack Lite is a lightweight **full-stack web application** designed to manage R&D laboratory assets and track issues using a simple ticketing system.  
+It replaces manual methods like Excel sheets, registers, or verbal communication with a **centralized, web-based solution**.
 
 ---
 
-## Problem Statement
+## 🚨 Problem Statement
 
-In many R&D labs:
-- Assets are tracked manually
+In many R&D laboratories:
+
+- Assets are tracked manually (Excel, notebooks)
 - Issues are reported verbally or informally
-- There is no centralized system for tracking problems
-- No visibility into open or resolved issues
+- No centralized system exists to track asset problems
+- No visibility into open, ongoing, or resolved issues
 
-This leads to poor tracking, delays, and confusion.
+This results in **poor traceability, delayed maintenance, and operational confusion**.
 
 ---
 
-## Solution Overview
+## 💡 Solution Overview
 
-LabTrack Lite provides:
-- A web interface to add and view lab assets
+**LabTrack Lite** provides:
+
+- A centralized web interface to manage lab assets
 - A ticketing system to report and track asset-related issues
-- A chatbot to help users query system information
+- A role-based dashboard experience
+- A simple AI-style chatbot to query system information
 
 ---
 
-## Features
+## ✨ Key Features
 
-- Add and view lab assets
-- Create and view issue tickets
-- Track ticket status
+- Add and view laboratory assets
+- Create and track issue tickets
+- Ticket status visibility (Open / In Progress / Closed)
+- Role-based views (Admin, Technician, Viewer)
 - Rule-based chatbot for natural language queries
-- Simple and responsive user interface
+- Clean, responsive, and user-friendly UI
+- Full-stack client–server architecture
 
 ---
 
-## Tech Stack
+## 👥 User Roles (Demo-based)
 
-- **Frontend:** React
-- **Backend:** ASP.NET Core Minimal APIs
-- **Database:** In-memory storage (used for demo purposes)
-- **API Communication:** REST APIs using JSON
+- **Admin**
+  - Add and manage lab assets
+  - View all tickets and asset status
 
----
+- **Technician**
+  - Create and track maintenance tickets
 
-## Design Approach
+- **Viewer**
+  - Read-only access to assets and tickets
 
-The application follows a **client–server architecture**:
-
-- The **React frontend** handles user interaction and displays data
-- The **ASP.NET Core backend** handles business logic and exposes REST APIs
-- The frontend communicates with the backend using HTTP requests
-
-This separation makes the system easy to understand and extend.
+> ⚠️ Authentication is intentionally skipped for hackathon demo simplicity.
 
 ---
 
-## System Architecture
+## 🛠️ Tech Stack
+
+**Frontend**
+- React (Create React App)
+- HTML, CSS (custom styling)
+- REST API integration
+
+**Backend**
+- ASP.NET Core (Minimal APIs)
+- In-memory data storage (demo purpose)
+
+**Communication**
+- REST APIs using JSON
+
+---
+
+## 🧠 Design Approach
+
+The application follows a **Client–Server Architecture**:
+
+- **React Frontend**
+  - Handles UI, role-based rendering, and user interaction
+- **ASP.NET Core Backend**
+  - Handles business logic and API endpoints
+- **REST APIs**
+  - Used for communication between frontend and backend
+
+This separation ensures **clarity, scalability, and maintainability**.
+
+---
+
+## 🏗️ System Architecture
+
+
 
 User
 ↓
 React Frontend
-↓ REST APIs
+↓ (REST APIs)
 ASP.NET Core Backend
 ↓
 In-Memory Data Storage
@@ -70,62 +103,103 @@ In-Memory Data Storage
 
 ---
 
-## How to Run the Project
+## ▶️ How to Run the Project
 
 ### Prerequisites
 
-Make sure the following are installed:
+Ensure the following are installed:
+
 - Node.js (v16 or later)
+- npm
 - .NET SDK (v7 or later)
-- npm (comes with Node.js)
 
 ---
 
 ### Step 1: Run the Backend
 
-1. Open a terminal
-2. Navigate to the project root folder:
-   ```bash
-   cd LabTrackLite
-3. Run the backend:
-   dotnet run
-Backend will start at:
-   http://localhost:5128
+```bash
+cd LabTrackLite
+dotnet run
 
- ### Step 2: Run the Frontend
 
-Open a new terminal
-Navigate to the frontend folder:
+Backend runs at:
+
+http://localhost:5128
+
+Step 2: Run the Frontend
 cd frontend
-Install dependencies (first time only):
 npm install
-Start the frontend:
 npm start
-Frontend will start at:
+
+
+Frontend runs at:
+
 http://localhost:3000
 
-### How to Use the Application:
+🧪 How to Use the Application
+
 Open browser and go to http://localhost:3000
-Add lab assets using the Add Asset section
-View added assets in the Assets list
-Create issue tickets using the Create Ticket section
-View tickets in the Tickets list
-Use the chatbot to ask questions like:
+
+Select a role (Admin / Technician / Viewer)
+
+Add lab assets (Admin role)
+
+View assets in the Assets section
+
+Create issue tickets (Technician role)
+
+View tickets and their status
+
+Use the chatbot to ask:
+
 "Tell me about assets"
+
 "Tell me about tickets"
 
-### Assumptions:
+"Help with equipment"
+
+📌 Assumptions
+
 Single lab environment
+
 Single-user demo
-Authentication and RBAC are out of scope
+
+Authentication & authorization not implemented
+
 In-memory database used for hackathon demo
 
-### Future Enhancements:
+🔮 Future Enhancements
+
 PostgreSQL database integration
-Role-Based Access Control (Admin, Engineer, Technician)
-Authentication and authorization
-Cloud deployment
+
+Proper authentication & authorization
+
+Role-Based Access Control (RBAC)
+
+Cloud deployment (Netlify / Azure / AWS)
+
 Advanced NLP-based chatbot
 
-### Conclusion:
-LabTrack Lite demonstrates how a simple full-stack solution can effectively solve real-world lab asset and issue management problems.
+Analytics and reporting dashboard
+
+✅ Conclusion
+
+LabTrack Lite demonstrates how a simple yet structured full-stack application can effectively solve real-world laboratory asset and issue management problems.
+The project emphasizes clarity, usability, and role-based system design, making it suitable for real-world extension.
+
+👨‍💻 Author
+
+Hari Priya
+Hackathon Submission – LabTrack Lite
+
+
+---
+
+
+
+From **project root**:
+
+```bash
+git add README.md
+git commit -m "Improve README with architecture, roles, and setup instructions"
+git push
