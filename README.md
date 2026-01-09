@@ -125,6 +125,14 @@ Advanced chatbot using NLP
 Cloud storage for QR codes
 Admin analytics dashboard
 
+## Live Deployment
+
+Frontend (Netlify):
+https://labtracklite123.netlify.app/
+
+Backend (Railway):
+https://labtracklite-production.up.railway.app/
+
 Conclusion
 LabTrack Lite demonstrates a complete full-stack system with real-world relevance, clean architecture, database persistence, and cloud deployment.
 
