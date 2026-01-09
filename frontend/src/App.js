@@ -12,61 +12,68 @@ function App() {
 
   // Fetch data
   useEffect(() => {
-    fetch("http://localhost:5128/assets")
+    fetch("https://labtracklite-production.up.railway.app/assets")
+
       .then(res => res.json())
       .then(data => setAssets(data));
 
-    fetch("http://localhost:5128/tickets")
+    fetch("https://labtracklite-production.up.railway.app/tickets")
+
       .then(res => res.json())
       .then(data => setTickets(data));
   }, []);
 
   // Add Asset (Admin)
   const addAsset = () => {
-    if (!assetName) return;
+  if (!assetName) return;
 
-    const newAsset = {
-      id: Date.now(),
-      name: assetName,
-      category: "General",
-      qrCode: "QR001",
-      status: "Active"
-    };
-
-    fetch("http://localhost:5128/assets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newAsset),
-    }).then(() => {
-      setAssets([...assets, newAsset]);
-      setAssetName("");
-    });
+  const newAsset = {
+    name: assetName,
+    category: "General",
+    qrCode: "QR001",
+    status: "Active"
   };
+
+  fetch("https://labtracklite-production.up.railway.app/assets", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newAsset),
+  }).then(() => {
+    fetch("https://labtracklite-production.up.railway.app/assets")
+      .then(res => res.json())
+      .then(data => setAssets(data));
+    setAssetName("");
+  });
+};
+
 
   // Add Ticket (Technician)
   const addTicket = () => {
-    if (!ticketTitle) return;
+  if (!ticketTitle) return;
 
-    const newTicket = {
-      id: Date.now(),
-      assetId: 1,
-      title: ticketTitle,
-      status: "Open"
-    };
-
-    fetch("http://localhost:5128/tickets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newTicket),
-    }).then(() => {
-      setTickets([...tickets, newTicket]);
-      setTicketTitle("");
-    });
+  const newTicket = {
+    assetId: 1,
+    title: ticketTitle,
+    status: "Open"
   };
+
+  fetch("https://labtracklite-production.up.railway.app/tickets", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newTicket),
+  }).then(() => {
+    fetch("https://labtracklite-production.up.railway.app/tickets")
+      .then(res => res.json())
+      .then(data => setTickets(data));
+    setTicketTitle("");
+  });
+};
+
 
   // Chatbot
   const askChatbot = () => {
-    fetch("http://localhost:5128/chat", {
+    fetch("https://labtracklite-production.up.railway.app/chat", {
+
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: chatQuery }),
@@ -355,7 +362,7 @@ function App() {
         <div className="connection-info">
           <div className="connection-status">
             <span className="status-dot connected"></span>
-            Connected to: localhost:5128
+           Connected to: Railway Cloud Backend
           </div>
           <div className="system-info">
             System Ready • Role: <strong>{role}</strong>

@@ -1,61 +1,66 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using LabTrackLite;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// SQLite DB
+builder.Services.AddDbContext<LabTrackDbContext>(options =>
+    options.UseSqlite("Data Source=labtrack.db"));
+
 builder.Services.AddCors();
+
 var app = builder.Build();
-app.UseCors(policy =>
-    policy.AllowAnyOrigin()
-          .AllowAnyMethod()
-          .AllowAnyHeader());
 
-
-// ---------------- DATA (In-Memory) ----------------
-var assets = new List<Asset>();
-var tickets = new List<Ticket>();
-
-// ---------------- ASSET APIs ----------------
-app.MapGet("/assets", () => Results.Ok(assets));
-
-app.MapPost("/assets", (Asset asset) =>
+// Create DB if not exists
+using (var scope = app.Services.CreateScope())
 {
-    assets.Add(asset);
-    return Results.Ok("Asset added successfully");
+    var db = scope.ServiceProvider.GetRequiredService<LabTrackDbContext>();
+    db.Database.EnsureCreated();
+}
+
+app.UseCors(p =>
+    p.AllowAnyOrigin()
+     .AllowAnyMethod()
+     .AllowAnyHeader());
+
+// -------- ASSETS --------
+app.MapGet("/assets", async (LabTrackDbContext db) =>
+    await db.Assets.ToListAsync());
+
+app.MapPost("/assets", async (Asset asset, LabTrackDbContext db) =>
+{
+    db.Assets.Add(asset);
+    await db.SaveChangesAsync();
+    return Results.Ok(asset);
 });
 
-// ---------------- TICKET APIs ----------------
-app.MapGet("/tickets", () => Results.Ok(tickets));
+// -------- TICKETS --------
+app.MapGet("/tickets", async (LabTrackDbContext db) =>
+    await db.Tickets.ToListAsync());
 
-app.MapPost("/tickets", (Ticket ticket) =>
+app.MapPost("/tickets", async (Ticket ticket, LabTrackDbContext db) =>
 {
-    tickets.Add(ticket);
-    return Results.Ok("Ticket created successfully");
+    db.Tickets.Add(ticket);
+    await db.SaveChangesAsync();
+    return Results.Ok(ticket);
 });
 
-// ---------------- CHATBOT (Rule-Based) ----------------
-// ---------------- CHATBOT (Rule-Based) ----------------
+// -------- CHATBOT --------
 app.MapPost("/chat", (ChatRequest req) =>
 {
-    var query = req.Query.ToLower();
+    var q = req.Query.ToLower();
 
-    if (query.Contains("asset"))
+    if (q.Contains("asset"))
         return Results.Ok("You can view and manage lab assets.");
 
-    if (query.Contains("ticket"))
-        return Results.Ok("You can raise and track tickets.");
+    if (q.Contains("ticket"))
+        return Results.Ok("You can create and track tickets.");
 
     return Results.Ok("Sorry, I did not understand your query.");
 });
 
-app.MapGet("/", () => "LabTrackLite API is running");
+app.MapGet("/", () => "LabTrack Lite API running with SQLite");
 
 app.Run();
 
-// ---------------- MODELS (MUST BE AT END IN .NET 10) ----------------
-record Asset(int Id, string Name, string Category, string QRCode, string Status);
-record Ticket(int Id, int AssetId, string Title, string Status);
 record ChatRequest(string Query);
-
